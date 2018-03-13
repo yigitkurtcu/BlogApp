@@ -5,7 +5,7 @@ const methodOverride = require("method-override");
 const expressSanitizer = require("express-sanitizer");
 const app = express();
 
-//APP CONFİG
+//APP CONFIG
 mongoose.connect("mongodb://localhost/restful_blog_app");
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -27,6 +27,7 @@ var Blog = mongoose.model("Blog",blogSchema);
 app.get("/", (req,res) =>{
     res.redirect("/blogs");
 })
+
 // INDEX ROUTE
 app.get("/blogs", (req,res) =>{
     Blog.find({}, (err,blogs) => {
@@ -37,10 +38,12 @@ app.get("/blogs", (req,res) =>{
         }
     })
 })
+
 // NEW ROUTE
 app.get("/blogs/new", (req,res) =>{
      res.render("new");
 })
+
 // CREATE ROUTE
 app.post("/blogs", (req,res) =>{
     req.body.blog.body = req.sanitize(req.body.blog.body);
@@ -102,7 +105,6 @@ app.delete("/blogs/:id", (req,res)=>{
         }
     })
 }) 
-
 
 app.listen(3000, () =>{
     console.log("SERVER IS RUNNING...");
